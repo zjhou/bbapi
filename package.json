@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "@vercel/node": "^1.12.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^1.30.0"
+  }
+}
