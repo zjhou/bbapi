@@ -1,6 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from "./_supabase";
 
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
 export default async function handler(request, response) {
   const { data, error } = await supabase
     .from('image')
