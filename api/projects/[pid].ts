@@ -1,6 +1,7 @@
 import { supabase } from "../_supabase";
+import allowCors from "../_cors";
 
-export default async function handler(request, response) {
+async function handler(request, response) {
   const { pid } = request.query;
   const { data: project, error } = await supabase
     .from('project')
@@ -17,3 +18,5 @@ export default async function handler(request, response) {
     images,
   });
 }
+
+export default allowCors(handler);
