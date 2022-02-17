@@ -5,7 +5,7 @@ async function handler(request, response) {
   const { name } = request.query;
   const { data: project, error } = await supabase
     .from('project')
-    .select('name, id')
+    .select('name, id, description')
     .eq('name', name);
 
   const {data: images } = await supabase
