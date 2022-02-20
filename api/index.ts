@@ -1,10 +1,15 @@
-const ENDPOINT = 'https://api.bbki.ng';
-const api = (path) => `${ENDPOINT}/${path}`;
+const ENDPOINT = "https://api.bbki.ng";
+import { VercelRequest, VercelResponse } from "@vercel/node";
 
-export default async function handler(request, response) {
+const api = (path: string) => `${ENDPOINT}/${path}`;
+
+export default async function handler(
+  request: VercelRequest,
+  response: VercelResponse
+) {
   response.status(200).json({
-    images: api('images'),
-    projects: api('projects'),
-    movies: api('movies'),
+    images: api("images"),
+    projects: api("projects"),
+    movies: api("movies"),
   });
 }

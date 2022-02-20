@@ -1,17 +1,25 @@
+import { VercelApiHandler, VercelRequest, VercelResponse } from "@vercel/node";
 import { supabase } from "../_supabase";
 import allowCors from "../_cors";
 
-async function handler(request, response) {
+async function handler(request: VercelRequest, response: VercelResponse) {
   const { name } = request.query;
   const { data: project, error } = await supabase
-    .from('project')
-    .select('name, id, description')
-    .eq('name', name);
+    .from("project")
+    .select("name, id, description")
+    .eq("name", name);
 
-  const {data: images } = await supabase
-    .from('image')
+  if (!project) {
+    response.status(error ? 500 : 200).json({
+      images: [],
+    });
+    return;
+  }
+
+  const { data: images } = await supabase
+    .from("image")
     .select()
-    .eq('project', project[0].id);
+    .eq("project", project[0].id);
 
   response.status(error ? 500 : 200).json({
     ...project[0],
