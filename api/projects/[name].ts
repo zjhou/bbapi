@@ -19,6 +19,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   const { data: images } = await supabase
     .from("image")
     .select()
+    .order("id", { ascending: false })
     .eq("project", project[0].id);
 
   response.status(error ? 500 : 200).json({
