@@ -5,7 +5,7 @@ import allowCors from "./_cors";
 async function handler(request: VercelRequest, response: VercelResponse) {
   const { data, error } = await supabase
     .from("project")
-    .select("name, id, status")
+    .select("name, id, status, description")
     .eq("status", 1);
   response.status(error ? 500 : 200).json(data);
 }
