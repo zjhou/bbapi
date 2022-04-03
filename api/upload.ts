@@ -16,10 +16,21 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  const result = await uploadToOss(
-    `image/${projectName}/${fileName}`,
-    request.body
-  );
+  let result;
+  try {
+    result = await uploadToOss(
+      `image/${projectName}/${fileName}`,
+      request.body
+    );
+  } catch (e) {
+    response.status(500).end({
+      msg: JSON.stringify(e),
+    });
+  }
+
+  if (!result) {
+    return;
+  }
 
   const { data: updateResult, error: updateError } = await supabase
     .from("image")
