@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.30.0",
-    "ali-oss": "^6.17.1"
+    "ali-oss": "^6.17.1",
+    "vercel": "^24.0.1"
   }
 }

@@ -5,7 +5,16 @@ import allowCors from "./_cors";
 async function handler(request: VercelRequest, response: VercelResponse) {
   const { data, error } = await supabase
     .from("project")
-    .select("name, id, status, description, order")
+    .select(
+      `
+      name,
+      id,
+      status,
+      description,
+      order,
+      cover:cover ( src, width, height, rendered_width )
+    `
+    )
     .order("order")
     .eq("status", 1);
   response.status(error ? 500 : 200).json(data);
