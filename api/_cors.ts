@@ -18,8 +18,6 @@ const allowCors =
       return;
     }
 
-    console.log(req.headers["x-vercel-ip-city"]);
-
     return fn(req, res);
   };
 
