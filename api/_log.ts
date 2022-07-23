@@ -1,4 +1,5 @@
 import got from 'got';
+import { VercelRequest, VercelResponse, VercelApiHandler } from "@vercel/node";
 
 export const log = (event: Object) => {
   if (!process.env.CUSTOM_AXIOM_INGEST_TOKEN) {
@@ -20,3 +21,11 @@ export const log = (event: Object) => {
     }
   ).json();
 };
+
+export const logCity = (req: VercelRequest) => {
+  const city = req.headers["x-vercel-ip-city"];
+
+  return city
+    ? log({ city })
+    : Promise.resolve();
+}

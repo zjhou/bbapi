@@ -1,5 +1,4 @@
 import { VercelRequest, VercelResponse, VercelApiHandler } from "@vercel/node";
-import { log } from "./_log";
 const allowCors =
   (fn: VercelApiHandler) => async (req: VercelRequest, res: VercelResponse) => {
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -17,12 +16,6 @@ const allowCors =
     if (req.method === "OPTIONS") {
       res.status(200).end();
       return;
-    }
-
-    const city = req.headers["x-vercel-ip-city"];
-
-    if (city) {
-     log({ city }).then(console.log);
     }
 
     return fn(req, res);

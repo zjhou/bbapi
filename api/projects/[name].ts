@@ -1,6 +1,7 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { supabase } from "../_supabase";
 import allowCors from "../_cors";
+import { logCity } from "../_log";
 
 async function handler(request: VercelRequest, response: VercelResponse) {
   const { name } = request.query;
@@ -21,6 +22,8 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     .select()
     .order("id", { ascending: false })
     .eq("project", project[0].id);
+
+  await logCity(request);
 
   response.status(error ? 500 : 200).json({
     ...project[0],
