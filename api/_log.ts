@@ -25,6 +25,8 @@ export const log = (event: Object) => {
 export const logCity = (req: VercelRequest) => {
   const city = req.headers["x-vercel-ip-city"];
 
+  console.log('city', city);
+
   return city
     ? log({ city })
     : Promise.resolve();
