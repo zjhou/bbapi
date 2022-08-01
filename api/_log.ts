@@ -1,5 +1,6 @@
 import got from 'got';
 import { VercelRequest, VercelResponse, VercelApiHandler } from "@vercel/node";
+import {notify} from "./_notify";
 
 export const log = (event: Object) => {
   if (!process.env.CUSTOM_AXIOM_INGEST_TOKEN) {
@@ -25,9 +26,15 @@ export const log = (event: Object) => {
 export const logCity = (req: VercelRequest) => {
   const city = req.headers["x-vercel-ip-city"];
 
-  console.log('city', city);
+  const sendNotice = () => {
+    const baseCity = new Set(['Changsha'])
+    if (baseCity.has(city as string)) {
+      return Promise.resolve();
+    }
+    return notify(`new visitor from ${city}`);
+  }
 
   return city
-    ? log({ city })
+    ? Promise.all([log({ city }), sendNotice()])
     : Promise.resolve();
 }
