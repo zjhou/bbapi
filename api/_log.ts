@@ -1,5 +1,5 @@
 import got from 'got';
-import { VercelRequest, VercelResponse, VercelApiHandler } from "@vercel/node";
+import { VercelRequest } from "@vercel/node";
 import {notify} from "./_notify";
 
 export const log = (event: Object) => {
@@ -24,17 +24,23 @@ export const log = (event: Object) => {
 };
 
 export const logCity = (req: VercelRequest) => {
-  const city = req.headers["x-vercel-ip-city"];
+  const visitorCity = req.headers["x-vercel-ip-city"] as string;
 
-  const sendNotice = () => {
-    const baseCity = new Set(['Changsha'])
-    if (baseCity.has(city as string)) {
-      return Promise.resolve();
-    }
+  const baseCity = new Set([
+    'Changsha',
+    'Jianning',
+    'Kowloon',
+  ]);
+
+  const sendNotice = (city: string) => {
     return notify(`new visitor from ${city}`);
   }
 
-  return city
-    ? Promise.all([log({ city }), sendNotice()])
+  const sendLog = (city: string) => {
+    return log({ city });
+  }
+
+  return visitorCity && !baseCity.has(visitorCity)
+    ? Promise.all([sendLog(visitorCity), sendNotice(visitorCity)])
     : Promise.resolve();
-}
+};
