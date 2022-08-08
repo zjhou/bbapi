@@ -1,4 +1,5 @@
 import { VercelRequest, VercelResponse, VercelApiHandler } from "@vercel/node";
+import {supabase} from "./_supabase";
 const allowCors =
   (fn: VercelApiHandler) => async (req: VercelRequest, res: VercelResponse) => {
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -16,6 +17,12 @@ const allowCors =
     if (req.method === "OPTIONS") {
       res.status(200).end();
       return;
+    }
+
+    const authToken = req.headers['x-supabase-auth'] as string;
+
+    if (authToken) {
+      supabase.auth.setAuth(authToken);
     }
 
     return fn(req, res);
