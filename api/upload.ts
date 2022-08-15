@@ -4,7 +4,7 @@ import allowCors from "./_cors";
 import { uploadToOss } from "./_oss_uploader";
 async function handler(request: VercelRequest, response: VercelResponse) {
   const { pid, projectName, fileName, width, height } = request.query;
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("image")
     .insert([{ title: fileName }]);
 
@@ -32,16 +32,16 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  let updateResult, updateError
-  if (pid) {
-    const { data, error} = await supabase
-      .from("image")
-      .update({ src: result.url, project: pid, width, height })
-      // @ts-ignore
-      .match({ id: data[0].id });
-    updateResult = data;
-    updateError = error;
+  if (!pid) {
+    response.status(200).json(result);
+    return
   }
+
+  const { data: updateResult, error: updateError} = await supabase
+    .from("image")
+    .update({ src: result.url, project: pid, width, height })
+    // @ts-ignore
+    .match({ id: data[0].id });
 
   if (updateError) {
     console.log(updateError);
