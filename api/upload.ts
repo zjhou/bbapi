@@ -3,7 +3,7 @@ import { supabase } from "./_supabase";
 import allowCors from "./_cors";
 import { uploadToOss } from "./_oss_uploader";
 async function handler(request: VercelRequest, response: VercelResponse) {
-  const { pid, projectName, fileName, width, height } = request.query;
+  const { pid = '', projectName = 'illustration/illustration', fileName, width, height } = request.query;
   const { data, error } = await supabase
     .from("image")
     .insert([{ title: fileName }]);
