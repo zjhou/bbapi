@@ -30,6 +30,7 @@ export const logCity = (req: VercelRequest) => {
     'Changsha',
     'Jianning',
     'Kowloon',
+    'Nanjing'
   ]);
 
   const sendNotice = (city: string) => {
