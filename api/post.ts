@@ -21,7 +21,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
       content: converter.makeHtml(content)
     });
 
-  response.status(error ? 500 : 200).json(data);
+  response.status(error ? 500 : 200).json(data[0]);
 }
 
 export default allowCors(handler);
