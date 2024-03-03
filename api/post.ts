@@ -3,8 +3,8 @@ import { supabase } from "./_supabase";
 import allowCors from "./_cors";
 
 async function handler(request: VercelRequest, response: VercelResponse) {
-  const { name, content } = request.body;
-  const { data, error } = await supabase.from("post").insert({ name, content });
+  const { title, content } = request.body;
+  const { data, error } = await supabase.from("post").insert({ title, content });
   response.status(error ? 500 : 200).json(data);
 }
 
