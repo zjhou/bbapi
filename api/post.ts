@@ -4,12 +4,11 @@ import allowCors from "./_cors";
 
 async function handler(request: VercelRequest, response: VercelResponse) {
   const { title, content } = request.body;
-  console.log(request.body);
-  console.log(title, content);
 
   const titleWithoutExtension = title.split(".")[0];
 
   if (!title || !content) {
+    console.log(title + " | " + content);
     response.status(400).json({ error: "Title and content are required" });
     return;
   }
