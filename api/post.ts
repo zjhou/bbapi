@@ -3,16 +3,18 @@ import { supabase } from "./_supabase";
 import allowCors from "./_cors";
 
 async function handler(request: VercelRequest, response: VercelResponse) {
-  const { arg } = request.body;
+  const { title, content } = request.body;
   console.log(request.body);
-  if (!arg || !arg.title || !arg.content) {
+  console.log(title, content);
+
+  const titleWithoutExtension = title.split(".")[0];
+
+  if (!title || !content) {
     response.status(400).json({ error: "Title and content are required" });
     return;
   }
 
-  const { title, content } = arg;
-
-  const { data, error } = await supabase.from("post").insert({ title, content });
+  const { data, error } = await supabase.from("post").insert({ title: titleWithoutExtension, content });
   console.log(error);
   response.status(error ? 500 : 200).json(data);
 }
