@@ -5,6 +5,7 @@ import allowCors from "./_cors";
 async function handler(request: VercelRequest, response: VercelResponse) {
   const { title, content } = request.body;
   const { data, error } = await supabase.from("post").insert({ title, content });
+  console.log(error);
   response.status(error ? 500 : 200).json(data);
 }
 
