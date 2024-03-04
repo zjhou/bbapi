@@ -19,9 +19,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     .upsert({
       title: titleWithoutExtension,
       content: converter.makeHtml(content)
-    }, { onConflict: 'title' });
+    });
 
-  response.status(error ? 500 : 200).json(data[0]);
+  response.status(error ? 500 : 200).json(error ? data : data[0]);
 }
 
 export default allowCors(handler);
