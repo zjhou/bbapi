@@ -16,7 +16,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   }
 
   const { data, error } = await supabase.from("post")
-    .insert({
+    .upsert({
       title: titleWithoutExtension,
       content: converter.makeHtml(content)
     });
