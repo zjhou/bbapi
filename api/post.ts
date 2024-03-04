@@ -19,7 +19,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     .upsert({
       title: titleWithoutExtension,
       content: converter.makeHtml(content)
-    });
+    }, { onConflict: 'title' });
 
   response.status(error ? 500 : 200).json(data[0]);
 }
