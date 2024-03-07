@@ -3,6 +3,8 @@ import { supabase } from "./_supabase";
 import allowCors from "./_cors";
 import showdown from "showdown";
 
+showdown.setFlavor('github');
+
 const converter = new showdown.Converter();
 
 async function handler(request: VercelRequest, response: VercelResponse) {
