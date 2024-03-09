@@ -10,7 +10,8 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  const { data, error } = await supabase.from("post")
+  const { data, error } = await supabase
+    .from("post")
     .delete()
     .eq("title", title);
 
@@ -20,7 +21,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return
   }
 
-  response.status(200).json(data[0]);
+  response.status(200).json({
+    data: title + " removed",
+  });
 }
 
 export default allowCors(handler);
