@@ -17,6 +17,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
   let result;
   try {
+    console.log('uploading to oss...');
     result = await uploadToOss(
       `image/${projectName || 'illustration/illustration'}/${fileName}`,
       request.body
@@ -29,6 +30,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   }
 
   if (!result) {
+    response.status(500).end({
+      msg: "upload to oss failed. can not get result.",
+    });
     return;
   }
 
@@ -45,7 +49,9 @@ async function handler(request: VercelRequest, response: VercelResponse) {
 
   if (updateError) {
     console.log(updateError);
-    response.status(500).end();
+    response.status(500).end({
+      msg: "update to supabase db failed.",
+    });
     return;
   }
 
